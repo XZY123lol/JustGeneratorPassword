@@ -1,0 +1,3 @@
+# pip install pyperclip PyQt5
+pyperclip
+PyQt5

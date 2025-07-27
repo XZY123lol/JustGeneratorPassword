@@ -26,7 +26,9 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libxcb-xinerama0 libxkbcommon-x11-0 libx11-xcb1 libxcb1 libx11-6 libxext6 libxrender1 libxi6 libglib2.0-0
+        sudo apt-get install -y \
+          libxcb-xinerama0 libxcb-xinerama0-dev libxkbcommon-x11-0 libx11-xcb1 libxcb1 libx11-6 libxext6 libxrender1 libxi6 libglib2.0-0 \
+          qtbase5-dev qtbase5-dev-tools
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi

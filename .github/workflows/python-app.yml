@@ -23,15 +23,22 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
+
     - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y \
           libxcb-xinerama0 libxcb-xinerama0-dev libxkbcommon-x11-0 libx11-xcb1 libxcb1 libx11-6 libxext6 libxrender1 libxi6 libglib2.0-0 \
-          qtbase5-dev qtbase5-dev-tools
+          qtbase5-dev qtbase5-dev-tools xvfb
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Start virtual X server
+      run: |
+        Xvfb :99 -screen 0 1024x768x24 &
+        sleep 3
+
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -39,5 +46,6 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test
-      run: |
-        python main.py
+      env:
+        DISPLAY: :99
+      run: python main.py
